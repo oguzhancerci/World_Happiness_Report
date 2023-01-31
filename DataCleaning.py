@@ -68,7 +68,6 @@ for col in all_data:
 
 
 
-
 #2017
 for col in all_data:
     categorical_cols_2017 = [col for col in df_2017.columns if str(df_2017[col].dtypes) in ["category", "object", "bool"]]
@@ -77,6 +76,7 @@ for col in all_data:
     numerical_cols_2017 = [col for col in df_2017.columns if df_2017[col].dtypes in ["int64", "float64"]]
     numerical_cols_2017 = [col for col in df_2017.columns if col not in categorical_cols_2017]
     print(f"Categorical Variables: {categorical_cols_2017}, Numerical But Categorical Variables: {numerical_but_categorical_2017}, Categorical But Numerical Variables: {categorical_but_cardinal_2017} ")
+
 
 
 #2018
@@ -89,6 +89,7 @@ for col in all_data:
     print(f"Categorical Variables: {categorical_cols_2018}, Numerical But Categorical Variables: {numerical_but_categorical_2018}, Categorical But Numerical Variables: {categorical_but_cardinal_2018} ")
 
 
+
 #2019
 for col in all_data:
     categorical_cols_2019 = [col for col in df_2019.columns if str(df_2019[col].dtypes) in ["category", "object", "bool"]]
@@ -99,10 +100,64 @@ for col in all_data:
     print(f"Categorical Variables: {categorical_cols_2019}, Numerical But Categorical Variables: {numerical_but_categorical_2019}, Categorical But Numerical Variables: {categorical_but_cardinal_2019} ")
 
 
-top_ten_score = df_2019.nlargest(10,"Score")
-top_ten_gdp = df_2019.nlargest(10,"GDP per capita")
-top_ten_ss = df_2019.nlargest(10,"Social support")
-top_ten_h = df_2019.nlargest(10,"Healthy life expectancy")
-top_ten_f = df_2019.nlargest(10,"Freedom to make life choices")
-top_ten_g = df_2019.nlargest(10,"Generosity")
-top_ten_c = df_2019.nsmallest(10,"Perceptions of corruption")
+
+# Happiest and the most unhappy countries according to "Happiness Rank"
+
+df_2015.loc[0:9, ["Happiness Rank", "Country"]] # Happiest countries of 2015
+df_2015[-10:][["Happiness Rank", "Country"]].iloc[::-1] # The most unhappy countries of 2015
+
+df_2016.loc[0:9, ["Happiness Rank", "Country"]] # Happiest countries of 2016
+df_2016[-10:][["Happiness Rank", "Country"]].iloc[::-1] # The most unhappy countries of 2016
+
+df_2017.loc[0:9, ["Happiness.Rank", "Country"]] # Happiest countries of 2017
+df_2017[-10:][["Happiness.Rank", "Country"]].iloc[::-1] # The most unhappy countries of 2017
+
+df_2018.loc[0:9, ["Overall rank", "Country or region"]] # Happiest countries of 2018
+df_2018[-10:][["Overall rank", "Country or region"]].iloc[::-1] # The most unhappy countries of 2018
+
+df_2019.loc[0:9, ["Overall rank", "Country or region"]] # Happiest countries of 2019
+df_2019[-10:][["Overall rank", "Country or region"]].iloc[::-1] # The most unhappy countries of 2019
+
+
+
+# For 2015 and 2016 datasets, country counts by each region using countplot
+
+def countries_by_region(dataframe, col_name, plot=False):
+    print(pd.DataFrame({col_name: dataframe[col_name].value_counts(),
+                        "Ratio": 100 * dataframe[col_name].value_counts() / len(dataframe)}))
+    print("###################################################")
+
+    if plot:
+        sns.countplot(x=dataframe[col_name], data=dataframe)
+        plt.title("Country counts by region")
+        plt.ylabel('counts')
+        plt.xticks(rotation=90)
+        plt.tight_layout(pad=1.0, w_pad=10.0, h_pad=10.0)
+        plt.show(block=True)
+
+countries_by_region(df_2015, "Region", plot=True)
+countries_by_region(df_2016, "Region", plot=True)
+
+
+# Happiness scores by region for 2015's dataset
+sns.barplot(x=df_2015["Region"], y=df_2015["Happiness Score"], data=df_2015)
+plt.title("Happiness scores by region")
+plt.xticks(rotation=90)
+plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
+plt.show(block=True)
+
+# Effect of Economy (GDP per Capita) and Life Expectancy to Happiness Score using scatterplot
+sns.scatterplot(x=df_2015["Economy (GDP per Capita)"], y=df_2015["Happiness Score"], hue= df_2015["Health (Life Expectancy)"], data=df_2015)
+plt.title("Effect of Economy (GDP per Capita) to Happiness Score")
+plt.xticks(rotation=90)
+plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
+plt.show(block=True)
+
+
+
+
+
+
+
+
+
