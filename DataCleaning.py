@@ -119,6 +119,7 @@ df_2019.loc[0:9, ["Overall rank", "Country or region"]] # Happiest countries of 
 df_2019[-10:][["Overall rank", "Country or region"]].iloc[::-1] # The most unhappy countries of 2019
 
 
+df_2019.loc[df_2019["Country or region"] == "Turkey"]
 
 # For 2015 and 2016 datasets, country counts by each region using countplot
 
@@ -153,10 +154,36 @@ plt.xticks(rotation=90)
 plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
 plt.show(block=True)
 
+# Effect of Family bounds on Happiness Score using scatterplot
+sns.lineplot(x=df_2015["Family"], y=df_2015["Happiness Score"], data=df_2015)
+plt.title("Effect of  Family bounds on Happiness Score")
+plt.xticks(rotation=90)
+plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
+plt.show(block=True)
 
+sns.scatterplot(x=df_2015["Freedom"], y=df_2015["Happiness Score"], data=df_2015)
+plt.title("Effect of Freedom on Happiness Score")
+plt.xticks(rotation=90)
+plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
+plt.show(block=True)
 
+df = df_2015
+def plotCorrelationMatrix(df, graphWidth):
 
-
+    df = df.dropna('columns') # drop columns with NaN
+    df = df[[col for col in df if df[col].nunique() > 1]] # keep columns where there are more than 1 unique values
+    if df.shape[1] < 2:
+        print(f'No correlation plots shown: The number of non-NaN or constant columns ({df.shape[1]}) is less than 2')
+        return
+    corr = df.corr()
+    plt.figure(num=None, figsize=(graphWidth, graphWidth), dpi=80, facecolor='w', edgecolor='k')
+    corrMat = plt.matshow(corr, fignum = 1)
+    plt.xticks(range(len(corr.columns)), corr.columns, rotation=90)
+    plt.yticks(range(len(corr.columns)), corr.columns)
+    plt.gca().xaxis.tick_bottom()
+    plt.colorbar(corrMat)
+    plt.title(f'Correlation Matrix for {df}', fontsize=15)
+    plt.show()
 
 
 
