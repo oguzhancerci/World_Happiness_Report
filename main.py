@@ -119,7 +119,7 @@ df_2019.loc[0:9, ["Overall rank", "Country or region"]] # Happiest countries of 
 df_2019[-10:][["Overall rank", "Country or region"]].iloc[::-1] # The most unhappy countries of 2019
 
 
-# Top 10 Countries with the highest features
+# Features contributions to happiness ranking in the world
 
 top_ten_score = df_2019.nlargest(10,"Score").loc[:, ["Country or region", "Score"]]
 top_ten_gdp = df_2019.nlargest(10,"GDP per capita").loc[:, ["Country or region", "GDP per capita"]]
