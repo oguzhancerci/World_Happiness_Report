@@ -119,10 +119,20 @@ df_2019.loc[0:9, ["Overall rank", "Country or region"]] # Happiest countries of 
 df_2019[-10:][["Overall rank", "Country or region"]].iloc[::-1] # The most unhappy countries of 2019
 
 
-df_2019.loc[df_2019["Country or region"] == "Turkey"]
+# Top 10 Countries with the highest features
+
+top_ten_score = df_2019.nlargest(10,"Score").loc[:, ["Country or region", "Score"]]
+top_ten_gdp = df_2019.nlargest(10,"GDP per capita").loc[:, ["Country or region", "GDP per capita"]]
+top_ten_ss = df_2019.nlargest(10,"Social support").loc[:, ["Country or region", "Social support"]]
+top_ten_h = df_2019.nlargest(10,"Healthy life expectancy").loc[:, ["Country or region", "Healthy life expectancy"]]
+top_ten_f = df_2019.nlargest(10,"Freedom to make life choices").loc[:, ["Country or region", "Freedom to make life choices"]]
+top_ten_g = df_2019.nlargest(10,"Generosity").loc[:, ["Country or region", "Generosity"]]
+top_ten_c = df_2019.nsmallest(10,"Perceptions of corruption").loc[:, ["Country or region", "Perceptions of corruption"]]
+
+
+# VISUALIZATION USING SEABORN
 
 # For 2015 and 2016 datasets, country counts by each region using countplot
-
 def countries_by_region(dataframe, col_name, plot=False):
     print(pd.DataFrame({col_name: dataframe[col_name].value_counts(),
                         "Ratio": 100 * dataframe[col_name].value_counts() / len(dataframe)}))
@@ -161,29 +171,43 @@ plt.xticks(rotation=90)
 plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
 plt.show(block=True)
 
-sns.scatterplot(x=df_2015["Freedom"], y=df_2015["Happiness Score"], data=df_2015)
-plt.title("Effect of Freedom on Happiness Score")
+# Relation between GDP per capita and Healthy life expectancy
+palette=["6096B4"]
+sns.lmplot(data=df_2019,x="GDP per capita", y="Healthy life expectancy", line_kws={'color': '#F94A29'},palette=palette)
+plt.title("Relation between GDP per capita and Healthy life expectancy", fontsize=10)
 plt.xticks(rotation=90)
 plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
 plt.show(block=True)
 
-df = df_2015
-def plotCorrelationMatrix(df, graphWidth):
 
-    df = df.dropna('columns') # drop columns with NaN
-    df = df[[col for col in df if df[col].nunique() > 1]] # keep columns where there are more than 1 unique values
-    if df.shape[1] < 2:
-        print(f'No correlation plots shown: The number of non-NaN or constant columns ({df.shape[1]}) is less than 2')
-        return
-    corr = df.corr()
-    plt.figure(num=None, figsize=(graphWidth, graphWidth), dpi=80, facecolor='w', edgecolor='k')
-    corrMat = plt.matshow(corr, fignum = 1)
-    plt.xticks(range(len(corr.columns)), corr.columns, rotation=90)
-    plt.yticks(range(len(corr.columns)), corr.columns)
-    plt.gca().xaxis.tick_bottom()
-    plt.colorbar(corrMat)
-    plt.title(f'Correlation Matrix for {df}', fontsize=15)
-    plt.show()
+
+# Correlation of World Happiness Index using Heatmap [2015-2019]
+for df, y in zip(all_data, years):
+    fig, ax = plt.subplots(1,1, figsize=(15,5))
+    sns.heatmap(df.corr(), annot=True).set_title(y)
+    plt.suptitle("Correlation of World Happiness Index [2015-2019]")
+    plt.xticks(rotation=90)
+    plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
+    plt.show(block=True)
+
+# Observations
+
+# 1 - Happiness score is highly correlated with Economy (GDP per Capita), Family, Health (Life Expectancy) and less correlated with Generosity and Trust (Government Corruption)
+# 2 - GDP per capita is highly correlated with Score, Social support, Healthy life expectancy and less correlated with Freedom to make life choices, Generosity and Perceptions of corruption.
+# 3 - Freedom only correlated with Score and Happiness score
+
+
+
+# Contribution of features to happiness ranking.(2019)
+
+mean_2019 = df_2019.mean(numeric_only=True)
+mean_2019.iloc[2:].plot(kind="bar", stacked=True)
+plt.ylabel("Contribution")
+plt.title("Factors Contribution")
+plt.xticks(rotation=90)
+plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
+plt.show(block=True)
+
 
 
 
