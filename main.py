@@ -46,78 +46,37 @@ for df, year in zip(all_data, years):
 # I defined the numerical variables which has number of unique value less than 10 as a categorical variable. (numerical_but_categorical)
 # And categorical variables which has number of unique value more than 20 as a numerical variable. (categorical_but_cardinal)
 
-# 2015
-for col in all_data:
-    categorical_cols_2015 = [col for col in df_2015.columns if str(df_2015[col].dtypes) in ["category", "object", "bool"]]
-    numerical_but_categorical_2015 = [col for col in df_2015.columns if df_2015[col].nunique() < 10 and df_2015[col].dtypes in ["int64", "float64"]]
-    categorical_but_cardinal_2015 = [col for col in df_2015.columns if df_2015[col].nunique() > 20 and str(df_2015[col].dtypes) in ["category", "object"]]
-    numerical_cols_2015 = [col for col in df_2015.columns if df_2015[col].dtypes in ["int64", "float64"]]
-    numerical_cols_2015 = [col for col in df_2015.columns if col not in categorical_cols_2015]
-    print(f"Categorical Variables: {categorical_cols_2015}, Numerical But Categorical Variables: {numerical_but_categorical_2015}, Categorical But Numerical Variables: {categorical_but_cardinal_2015} ")
+def col_summary(df, year):
+    categorical_cols = [col for col in df.columns if str(df[col].dtypes) in ["category", "object", "bool"]]
+    numerical_but_categorical = [col for col in df.columns if df[col].nunique() < 10 and df[col].dtypes in ["int64", "float64"]]
+    categorical_but_cardinal = [col for col in df.columns if df[col].nunique() > 20 and str(df[col].dtypes) in ["category","object"]]
+    numerical_cols = [col for col in df.columns if df[col].dtypes in ["int64", "float64"]]
+    numerical_cols = [col for col in df.columns if col not in categorical_cols]
+    print(f"{year}--> Categorical Variables: {categorical_cols}, Numerical But Categorical Variables: {numerical_but_categorical}, Categorical But Numerical Variables: {categorical_but_cardinal} ")
 
-
-
-# 2016
-for col in all_data:
-    categorical_cols_2016 = [col for col in df_2016.columns if str(df_2016[col].dtypes) in ["category", "object", "bool"]]
-    numerical_but_categorical_2016 = [col for col in df_2016.columns if df_2016[col].nunique() < 10 and df_2016[col].dtypes in ["int64", "float64"]]
-    categorical_but_cardinal_2016 = [col for col in df_2016.columns if df_2016[col].nunique() > 20 and str(df_2016[col].dtypes) in ["category", "object"]]
-    numerical_cols_2016 = [col for col in df_2016.columns if df_2016[col].dtypes in ["int64", "float64"]]
-    numerical_cols_2016 = [col for col in df_2016.columns if col not in categorical_cols_2016]
-    print(f"Categorical Variables: {categorical_cols_2016}, Numerical But Categorical Variables: {numerical_but_categorical_2016}, Categorical But Numerical Variables: {categorical_but_cardinal_2016} ")
-
-
-
-#2017
-for col in all_data:
-    categorical_cols_2017 = [col for col in df_2017.columns if str(df_2017[col].dtypes) in ["category", "object", "bool"]]
-    numerical_but_categorical_2017 = [col for col in df_2017.columns if df_2017[col].nunique() < 10 and df_2017[col].dtypes in ["int64", "float64"]]
-    categorical_but_cardinal_2017 = [col for col in df_2017.columns if df_2017[col].nunique() > 20 and str(df_2017[col].dtypes) in ["category", "object"]]
-    numerical_cols_2017 = [col for col in df_2017.columns if df_2017[col].dtypes in ["int64", "float64"]]
-    numerical_cols_2017 = [col for col in df_2017.columns if col not in categorical_cols_2017]
-    print(f"Categorical Variables: {categorical_cols_2017}, Numerical But Categorical Variables: {numerical_but_categorical_2017}, Categorical But Numerical Variables: {categorical_but_cardinal_2017} ")
-
-
-
-#2018
-for col in all_data:
-    categorical_cols_2018 = [col for col in df_2018.columns if str(df_2018[col].dtypes) in ["category", "object", "bool"]]
-    numerical_but_categorical_2018 = [col for col in df_2018.columns if df_2018[col].nunique() < 10 and df_2015[col].dtypes in ["int64", "float64"]]
-    categorical_but_cardinal_2018 = [col for col in df_2018.columns if df_2018[col].nunique() > 20 and str(df_2018[col].dtypes) in ["category", "object"]]
-    numerical_cols_2018 = [col for col in df_2018.columns if df_2018[col].dtypes in ["int64", "float64"]]
-    numerical_cols_2018 = [col for col in df_2018.columns if col not in categorical_cols_2018]
-    print(f"Categorical Variables: {categorical_cols_2018}, Numerical But Categorical Variables: {numerical_but_categorical_2018}, Categorical But Numerical Variables: {categorical_but_cardinal_2018} ")
-
-
-
-#2019
-for col in all_data:
-    categorical_cols_2019 = [col for col in df_2019.columns if str(df_2019[col].dtypes) in ["category", "object", "bool"]]
-    numerical_but_categorical_2019 = [col for col in df_2019.columns if df_2019[col].nunique() < 10 and df_2019[col].dtypes in ["int64", "float64"]]
-    categorical_but_cardinal_2019 = [col for col in df_2019.columns if df_2019[col].nunique() > 20 and str(df_2019[col].dtypes) in ["category", "object"]]
-    numerical_cols_2019 = [col for col in df_2019.columns if df_2019[col].dtypes in ["int64", "float64"]]
-    numerical_cols_2019 = [col for col in df_2019.columns if col not in categorical_cols_2019]
-    print(f"Categorical Variables: {categorical_cols_2019}, Numerical But Categorical Variables: {numerical_but_categorical_2019}, Categorical But Numerical Variables: {categorical_but_cardinal_2019} ")
-
-
+col_summary(df_2015, 2015)
+col_summary(df_2016, 2016)
+col_summary(df_2017, 2017)
+col_summary(df_2018, 2018)
+col_summary(df_2019, 2019)
 
 # Happiest and the most unhappy countries according to "Happiness Rank"
 
-df_2015.loc[0:9, ["Happiness Rank", "Country"]] # Happiest countries of 2015
-df_2015[-10:][["Happiness Rank", "Country"]].iloc[::-1] # The most unhappy countries of 2015
+def rank(df, col1, col2):
+    happy = df.loc[0:9, [col1, col2]]
+    unhappy = df[-10:][[col1, col2]].iloc[::-1]
+    print(f"Top 10 happiest Countries")
+    print(happy, "\n")
+    print(f"Top 10 most unhappy Countries")
+    print(unhappy)
 
-df_2016.loc[0:9, ["Happiness Rank", "Country"]] # Happiest countries of 2016
-df_2016[-10:][["Happiness Rank", "Country"]].iloc[::-1] # The most unhappy countries of 2016
 
-df_2017.loc[0:9, ["Happiness.Rank", "Country"]] # Happiest countries of 2017
-df_2017[-10:][["Happiness.Rank", "Country"]].iloc[::-1] # The most unhappy countries of 2017
 
-df_2018.loc[0:9, ["Overall rank", "Country or region"]] # Happiest countries of 2018
-df_2018[-10:][["Overall rank", "Country or region"]].iloc[::-1] # The most unhappy countries of 2018
-
-df_2019.loc[0:9, ["Overall rank", "Country or region"]] # Happiest countries of 2019
-df_2019[-10:][["Overall rank", "Country or region"]].iloc[::-1] # The most unhappy countries of 2019
-
+rank(df_2015, "Happiness Rank", "Country")
+rank(df_2016, "Happiness Rank", "Country")
+rank(df_2017, "Happiness.Rank", "Country")
+rank(df_2018, "Overall rank", "Country or region")
+rank(df_2019, "Overall rank", "Country or region")
 
 # Features contributions to happiness ranking in the world
 
@@ -207,6 +166,9 @@ plt.title("Factors Contribution")
 plt.xticks(rotation=90)
 plt.tight_layout(pad=1.0, w_pad=1.0, h_pad=1.0)
 plt.show(block=True)
+
+
+
 
 
 
