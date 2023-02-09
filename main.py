@@ -88,6 +88,15 @@ top_ten_f = df_2019.nlargest(10,"Freedom to make life choices").loc[:, ["Country
 top_ten_g = df_2019.nlargest(10,"Generosity").loc[:, ["Country or region", "Generosity"]]
 top_ten_c = df_2019.nsmallest(10,"Perceptions of corruption").loc[:, ["Country or region", "Perceptions of corruption"]]
 
+from IPython.display import display_html 
+
+df1_style = top_ten_score.style.set_table_attributes("style='display:inline-block; margin-right:5px;'").set_caption("Top 10 Score in 2019")
+df2_style = top_ten_gdp.style.set_table_attributes("style='display:inline-block; margin-right:5px;'").set_caption("Top 10 Gdp in 2019")
+df3_style = top_ten_ss.style.set_table_attributes("style='display:inline-block; margin-right:5px;'").set_caption("Top 10 Social Support in 2019")
+df4_style = top_ten_h.style.set_table_attributes("style='display:inline-block; margin-right:5px;'").set_caption("Top 10 Healthy Life Expectancy in 2019")
+
+display_html(df1_style._repr_html_() + df2_style._repr_html_() + df3_style._repr_html_() + df4_style._repr_html_(), raw=True)
+
 
 # VISUALIZATION USING SEABORN
 
